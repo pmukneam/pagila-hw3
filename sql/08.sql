@@ -18,3 +18,9 @@
  *    Ensure that you are not counting a customer that has rented a movie twice as 2 separate customers renting the movie.
  *    I did this by using the SELECT DISTINCT clause.
  */
+
+-- bucket_idg = 103S
+--
+--
+--
+select title from film join (select film_id, count(*) from (select distinct film_id, customer_id from film join inventory using (film_id) join rental using (inventory_id) join (select distinct customer_id from film join inventory using (film_id) join rental using (inventory_id) join customer using (customer_id) where title = 'BUCKET BROTHERHOOD')temp1 using (customer_id))temp3 group by film_id having count(*) >= 3)temp5 using (film_id) where title != 'BUCKET BROTHERHOOD' order by title;
